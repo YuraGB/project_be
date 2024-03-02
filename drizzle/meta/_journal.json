@@ -8,6 +8,34 @@
       "when": 1709212428408,
       "tag": "0000_wise_stryfe",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1709413411535,
+      "tag": "0001_elite_jean_grey",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1709413584864,
+      "tag": "0002_goofy_brother_voodoo",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1709413622361,
+      "tag": "0003_heavy_marvel_boy",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1709414910944,
+      "tag": "0004_early_fabian_cortez",
+      "breakpoints": true
     }
   ]
 }

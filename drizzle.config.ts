@@ -9,7 +9,7 @@ const credentials = {
 } as const;
 
 export default {
-  schema: "./src/schema.ts",
+  schema: "./src/db/schemas/*",
   out: "./drizzle",
   driver: "mysql2", // 'pg' | 'mysql2' | 'better-sqlite' | 'libsql' | 'turso'
   dbCredentials: credentials,

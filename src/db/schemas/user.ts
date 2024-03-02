@@ -1,4 +1,5 @@
 import {
+  boolean,
   pgTable,
   serial,
   text,
@@ -6,13 +7,15 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 
-export const ExampleTable = pgTable(
+export const UsersTable = pgTable(
   "user",
   {
     id: serial("id").primaryKey(),
     name: text("name").notNull(),
+    dateOfBirth: text("dateOfBirth").notNull(),
     email: text("email").notNull(),
-    image: text("image").notNull(),
+    phoneNumber: text("phoneNumber").notNull(),
+    agreement: boolean("agreement").notNull(),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
   },
   (users) => {
