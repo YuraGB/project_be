@@ -18,7 +18,7 @@ class UserService implements IUserService {
   }
 
   async getUser(id: number) {
-    return await Promise.resolve({
+    return {
       id,
       name: "John Doe",
       dateOfBirth: "01/01/1970",
@@ -26,11 +26,11 @@ class UserService implements IUserService {
       phoneNumber: "",
       agreement: true,
       createdAt: new Date(),
-    });
+    };
   }
 
   async updateUser(user: User) {
-    return await Promise.resolve(user);
+    return user;
   }
 
   async deleteUser(id: number) {
@@ -39,7 +39,7 @@ class UserService implements IUserService {
   }
 
   async getUsers() {
-    return await Promise.resolve([dummyUser]);
+    return [dummyUser];
   }
 }
 
