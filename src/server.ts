@@ -1,18 +1,20 @@
 import "dotenv/config";
 import fastify, { type FastifyReply } from "fastify";
-import cookie from "@fastify/cookie";
-// import route from "./routes/coockies/route";
+import cookie, { type FastifyCookieOptions } from "@fastify/cookie";
 import fastifyJwt from "@fastify/jwt";
+
 import { staticFilesPlugin } from "./plugins/staticFilesPlugin/staticFilesPlugin";
 import routes from "./routes";
+
 import jwtConfig from "./plugins/jwtPlugin/";
+import cookiesConfig from "./plugins/cookiesPlugin/";
 
 const build = (opts = {}) => {
   const app = fastify(opts);
 
   // Plugins
   app.register(staticFilesPlugin);
-  app.register(cookie);
+  app.register(cookie, cookiesConfig as FastifyCookieOptions);
   app.register(fastifyJwt, jwtConfig);
 
   // Routes

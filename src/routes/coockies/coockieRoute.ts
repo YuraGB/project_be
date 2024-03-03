@@ -17,7 +17,6 @@ export const cookieRoute = async (
 
   reply
     .setCookie("refreshToken", refreshToken, {
-      domain: "your.domain",
       path: "/",
       secure: true, // send cookie over HTTPS only
       httpOnly: true,

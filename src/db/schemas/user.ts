@@ -9,10 +9,11 @@ import {
 export const ExampleTable = pgTable(
   "user",
   {
-    id: serial("id").primaryKey(),
-    name: text("name").notNull(),
+    id: serial("id").primaryKey().unique(),
+    nickname: text("name").notNull(),
+    phone: text("phone").notNull(),
     email: text("email").notNull(),
-    image: text("image").notNull(),
+    dateOfBirth: text("date_of_birth").notNull(),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
   },
   (users) => {
