@@ -3,7 +3,7 @@ import fastify, { type FastifyReply } from "fastify";
 import cookie, { type FastifyCookieOptions } from "@fastify/cookie";
 import fastifyJwt from "@fastify/jwt";
 
-import { staticFilesPlugin } from "./plugins/staticFilesPlugin/staticFilesPlugin";
+import { staticFilesPlugin } from "./routes/staticFilesPlugin/staticFilesPlugin";
 import routes from "./routes";
 
 import jwtConfig from "./plugins/jwtPlugin/";

@@ -1,6 +1,6 @@
 {
-  "id": "61a4c962-9095-4a38-981b-3d167db6428a",
-  "prevId": "1f53db49-e993-4247-99ca-b92150643876",
+  "id": "8bf0539a-eab9-4db7-847e-e5543ba5dfe8",
+  "prevId": "61a4c962-9095-4a38-981b-3d167db6428a",
   "version": "5",
   "dialect": "pg",
   "tables": {
@@ -82,8 +82,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "createdAt": {
-          "name": "createdAt",
+        "created_at": {
+          "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
