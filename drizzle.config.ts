@@ -11,6 +11,6 @@ const credentials = {
 export default {
   schema: "./src/schema.ts",
   out: "./drizzle",
-  driver: "mysql2", // 'pg' | 'mysql2' | 'better-sqlite' | 'libsql' | 'turso'
+  driver: "pg", // 'pg' | 'mysql2' | 'better-sqlite' | 'libsql' | 'turso'
   dbCredentials: credentials,
 } satisfies Config;
