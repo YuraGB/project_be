@@ -1,5 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import createUser from "./createUser/route";
+import findUserById from "./findUserById/route";
 
 export default function (
   fastify: FastifyInstance,
@@ -7,6 +8,7 @@ export default function (
   done: () => void,
 ) {
   fastify.route(createUser);
+  fastify.route(findUserById);
 
   done();
 }
