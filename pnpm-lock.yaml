@@ -23,6 +23,9 @@ dependencies:
   fastify-plugin:
     specifier: ^4.5.1
     version: 4.5.1
+  he:
+    specifier: ^1.2.0
+    version: 1.2.0
   postgres:
     specifier: ^3.4.3
     version: 3.4.3
@@ -55,6 +58,9 @@ devDependencies:
   '@fastify/type-provider-typebox':
     specifier: ^4.0.0
     version: 4.0.0(@sinclair/typebox@0.32.14)
+  '@types/he':
+    specifier: ^1.2.3
+    version: 1.2.3
   '@types/node':
     specifier: ^20.11.21
     version: 20.11.21
@@ -1426,6 +1432,10 @@ packages:
     dependencies:
       '@tufjs/canonical-json': 2.0.0
       minimatch: 9.0.3
+    dev: true
+
+  /@types/he@1.2.3:
+    resolution: {integrity: sha512-q67/qwlxblDzEDvzHhVkwc1gzVWxaNxeyHUBF4xElrvjL11O+Ytze+1fGpBHlr/H9myiBUaUXNnNPmBHxxfAcA==}
     dev: true
 
   /@types/istanbul-lib-coverage@2.0.6:
@@ -3383,6 +3393,11 @@ packages:
     dependencies:
       function-bind: 1.1.2
     dev: true
+
+  /he@1.2.0:
+    resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
+    hasBin: true
+    dev: false
 
   /heap@0.2.7:
     resolution: {integrity: sha512-2bsegYkkHO+h/9MGbn6KWcE45cHZgPANo5LXF7EvWdT0yT2EguSVO1nDgU5c8+ZOPwp2vMNa7YFsJhVcDR9Sdg==}
