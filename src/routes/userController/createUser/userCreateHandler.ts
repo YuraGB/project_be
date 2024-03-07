@@ -10,7 +10,6 @@ export const userCreateController = async (
   const { body } = request;
 
   const existingUser = await userService.getUserByEmail(body.email);
-  console.log(existingUser);
 
   if (existingUser) {
     reply.code(400).send({ isError: true, message: "User already exists" });
@@ -23,7 +22,7 @@ export const userCreateController = async (
     const token = await reply.jwtSign(createdUser);
 
     return await reply
-      .setCookie("token", token, {
+      .setCookie("refreshToken", token, {
         path: "/",
         secure: true, // send cookie over HTTPS only
         httpOnly: true,
