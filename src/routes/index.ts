@@ -1,6 +1,7 @@
 import { type FastifyInstance } from "fastify";
 import cookieRoute from "./coockies/route";
-import userRoutes from "./userController/index";
+import userRoutes from "./userController";
+import authRoutes from "./authController";
 
 export default function (
   fastify: FastifyInstance,
@@ -11,6 +12,10 @@ export default function (
 
   fastify.register(userRoutes, {
     prefix: "/user",
+  });
+
+  fastify.register(authRoutes, {
+    prefix: "/auth",
   });
 
   done();
