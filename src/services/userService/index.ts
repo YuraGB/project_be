@@ -4,9 +4,10 @@ import { createUser } from "../../model/user/createUser";
 import { findUserByEmail } from "../../model/user/findUser/findUserByEmail";
 import { findUserById } from "../../model/user/findUser/findUserById";
 import { findUsers } from "../../model/user/findUser/findUsers";
+import { type ICreateUser } from "../../routes/userController/createUser/types";
 
 class UserService implements IUserService {
-  async createUser(user: User) {
+  async createUser(user: ICreateUser) {
     if (!user) return null;
 
     // todo: validate user

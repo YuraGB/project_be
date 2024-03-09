@@ -4,6 +4,6 @@ import path from "path";
 
 export const staticFilesRoute = async (instance: FastifyInstance) => {
   instance.register(fastifyStatic, {
-    root: path.resolve("./", "../Project/dist"),
+    root: path.resolve("./", "../project_fe/dist"),
   });
 };

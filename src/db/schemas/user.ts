@@ -13,7 +13,7 @@ export const UsersTable = pgTable(
     id: serial("id").primaryKey(),
     name: text("name").notNull(),
     dateOfBirth: text("date_of_birth").notNull(),
-    password: text("password").default("123"),
+    password: text("password").notNull(),
     email: text("email").notNull(),
     phoneNumber: text("phone").notNull(),
     agreement: boolean("agreement").notNull(),

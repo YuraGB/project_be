@@ -1,6 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import userService from "../../../services/userService";
-import { type User } from "../../../services/userService/types";
 import { type TRequestCreateUser } from "./types";
 
 export const userCreateController = async (
@@ -16,7 +15,7 @@ export const userCreateController = async (
     return;
   }
 
-  const createdUser = await userService.createUser(body as User);
+  const createdUser = await userService.createUser(body);
 
   if (createdUser !== null) {
     const token = await reply.jwtSign(createdUser);

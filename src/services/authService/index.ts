@@ -1,5 +1,5 @@
 import { type FastifyReply, type FastifyRequest } from "fastify";
-import { type IUserService, type User } from "../userService/types";
+import { type IUserService } from "../userService/types";
 import { type ITokenService } from "../tokenService/types";
 import {
   type AuthInterface,
@@ -9,6 +9,8 @@ import {
 } from "./types";
 import userService from "../userService";
 import tokenService from "../tokenService";
+import { passwordCompare } from "../util/passwordHashing";
+import { type ICreateUser } from "../../routes/userController/createUser/types";
 
 class AuthService implements AuthInterface {
   userService: IUserService;
@@ -31,8 +33,12 @@ class AuthService implements AuthInterface {
         .send({ isError: true, message: "User not found" });
     }
 
-    // todo add password hashing
-    if (existingUser.password !== user.password) {
+    const passwordMatch = await passwordCompare(
+      user.password,
+      existingUser.password,
+    );
+
+    if (!passwordMatch) {
       return await response
         .code(401)
         .send({ isError: true, message: "Invalid password" });
@@ -69,26 +75,45 @@ class AuthService implements AuthInterface {
 
   public async signUp(
     reply: FastifyReply,
-    userData: User,
+    userData: ICreateUser,
   ): Promise<SignUpSuccessResponse | SignUpErrorResponse> {
     const existingUser = await this.userService.getUserByEmail(userData.email);
 
     if (existingUser) {
-      return { isError: true, message: "User already exists" };
+      return await reply
+        .code(400)
+        .send({ isError: true, message: "User exists" });
     }
 
     const createdUser = await this.userService.createUser(userData);
 
     if (!createdUser) {
-      return { isError: true, message: "User not created" };
+      return await reply
+        .code(500)
+        .send({ isError: true, message: "User not created" });
     }
+    try {
+      const { accessToken, refreshToken } =
+        await this.tokenService.generateTokens(reply, createdUser);
 
-    const tokens = await this.tokenService.generateTokens(reply, createdUser);
-
-    return {
-      createdUser,
-      ...tokens,
-    };
+      return await reply
+        .setCookie("refreshToken", refreshToken, {
+          path: "/",
+          secure: true,
+          httpOnly: true,
+          sameSite: true,
+        })
+        .code(200)
+        .send({
+          ...createdUser,
+          accessToken,
+        });
+    } catch (error) {
+      console.error("signUp", error);
+      return await reply
+        .code(500)
+        .send({ isError: true, message: "Error: tokens not created" });
+    }
   }
 }
 

@@ -29,6 +29,20 @@
       "when": 1709823211420,
       "tag": "0003_orange_scarecrow",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1710007598288,
+      "tag": "0004_misty_radioactive_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1710011113145,
+      "tag": "0005_true_kat_farrell",
+      "breakpoints": true
     }
   ]
 }
