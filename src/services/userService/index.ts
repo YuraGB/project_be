@@ -5,13 +5,26 @@ import { findUserByEmail } from "../../model/user/findUser/findUserByEmail";
 import { findUserById } from "../../model/user/findUser/findUserById";
 import { findUsers } from "../../model/user/findUser/findUsers";
 import { type ICreateUser } from "../../routes/userController/createUser/types";
+import { passwordHashing } from "../util/passwordHashing";
 
 class UserService implements IUserService {
   async createUser(user: ICreateUser) {
     if (!user) return null;
 
+    const hashPassword = await passwordHashing(user.password);
+    if (!hashPassword) return null;
+
+    const newUser: ICreateUser = {
+      email: he.decode(user.email),
+      password: hashPassword,
+      agreement: user.agreement,
+      name: he.decode(user.name),
+      dateOfBirth: user.dateOfBirth,
+      phoneNumber: user.phoneNumber,
+    };
+
     // todo: validate user
-    return await createUser(user);
+    return await createUser(newUser);
   }
 
   async getUserByEmail(email: string) {

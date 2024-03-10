@@ -1,5 +1,8 @@
-import { type FastifyInstance } from "fastify";
-import cookieRoute from "./coockies/route";
+import {
+  type FastifyInstance,
+  type FastifyReply,
+  type FastifyRequest,
+} from "fastify";
 import userRoutes from "./userController";
 import authRoutes from "./authController";
 
@@ -8,14 +11,16 @@ export default function (
   _opts: unknown,
   done: () => void,
 ) {
-  fastify.route(cookieRoute);
-
   fastify.register(userRoutes, {
     prefix: "/user",
   });
 
   fastify.register(authRoutes, {
     prefix: "/auth",
+  });
+
+  fastify.get("/hello", (_request: FastifyRequest, reply: FastifyReply) => {
+    reply.send("Hello");
   });
 
   done();

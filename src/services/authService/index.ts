@@ -97,6 +97,9 @@ class AuthService implements AuthInterface {
         await this.tokenService.generateTokens(reply, createdUser);
 
       return await reply
+        .headers({
+          Authorization: `Bearer ${accessToken}`,
+        })
         .setCookie("refreshToken", refreshToken, {
           path: "/",
           secure: true,
