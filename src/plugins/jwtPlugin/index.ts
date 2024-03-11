@@ -5,6 +5,7 @@ export default {
     cookieName: "refreshToken",
     signed: true,
   },
+  decode: { complete: true },
   jwtVerify: "securityVerify",
   sign: {
     expiresIn: "1h",

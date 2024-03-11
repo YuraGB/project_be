@@ -1,11 +1,11 @@
 import { type FastifyReply, type FastifyRequest } from "fastify";
 
-export const authentificate = async function (
+export const authentificate = function (
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
   try {
-    return await request.jwtVerify();
+    void request.jwtVerify();
   } catch (err) {
     console.log(err);
     reply.send(err);

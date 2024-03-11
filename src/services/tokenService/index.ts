@@ -1,18 +1,24 @@
 import "dotenv/config";
-import { type FastifyReply } from "fastify";
+import { type FastifyReply, type FastifyRequest } from "fastify";
 import { type User } from "../userService/types";
 import { type ITokenService } from "./types";
 import { saveRefreshToken } from "../../model/token/seveRefreshToken";
 import { removeToken } from "../../model/token/removeToken";
 
 class TokenService implements ITokenService {
-  async generateAccessToken(reply: FastifyReply, payload: User): Promise<string> {
+  async generateAccessToken(
+    reply: FastifyReply,
+    payload: User,
+  ): Promise<string> {
     return await reply.jwtSign(payload, {
       expiresIn: "1h",
     });
   }
 
-  async generateRefreshToken(reply: FastifyReply, payload: User): Promise<string> {
+  async generateRefreshToken(
+    reply: FastifyReply,
+    payload: User,
+  ): Promise<string> {
     return await reply.jwtSign(payload, {
       expiresIn: "1w",
     });
@@ -41,8 +47,31 @@ class TokenService implements ITokenService {
     if (refreshToken) {
       return await removeToken(refreshToken);
     }
-    console.log("deleteToken", refreshToken);
     return false;
+  }
+
+  async refreshToken(request: FastifyRequest, reply: FastifyReply) {
+    const token = request.cookies.refreshToken;
+    if (!token) {
+      return null;
+    }
+    const decodedToken: { payload: Partial<User> } = await request.jwtDecode();
+
+    // take only users fields
+    const user = {
+      id: decodedToken.payload.id,
+      email: decodedToken.payload.email,
+      password: decodedToken.payload.password,
+      name: decodedToken.payload.name,
+      dateOfBirth: decodedToken.payload.dateOfBirth,
+      createdAt: decodedToken.payload.createdAt,
+      phoneNumber: decodedToken.payload.phoneNumber,
+      agreement: decodedToken.payload.agreement,
+    } as User;
+
+    const tokens = await this.generateTokens(reply, user);
+    await this.saveRefreshToken(user.id, tokens.refreshToken);
+    return tokens;
   }
 }
 
