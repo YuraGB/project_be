@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1709496170059,
-      "tag": "0000_rare_stature",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1709496837158,
-      "tag": "0001_cynical_gambit",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1709496880204,
-      "tag": "0002_real_arachne",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1709823211420,
-      "tag": "0003_orange_scarecrow",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1710007598288,
-      "tag": "0004_misty_radioactive_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1710011113145,
-      "tag": "0005_true_kat_farrell",
+      "when": 1710178693549,
+      "tag": "0000_thankful_wolfpack",
       "breakpoints": true
     }
   ]

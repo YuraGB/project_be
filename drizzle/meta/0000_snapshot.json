@@ -1,5 +1,5 @@
 {
-  "id": "1f53db49-e993-4247-99ca-b92150643876",
+  "id": "daaafecd-f8bd-4498-8ca3-e11987ee7062",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -60,6 +60,12 @@
         },
         "date_of_birth": {
           "name": "date_of_birth",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
           "type": "text",
           "primaryKey": false,
           "notNull": true

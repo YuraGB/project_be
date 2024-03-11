@@ -10,7 +10,7 @@ import { passwordHashing } from "../util/passwordHashing";
 class UserService implements IUserService {
   async createUser(user: ICreateUser) {
     if (!user) return null;
-
+    console.log(user, 13);
     const hashPassword = await passwordHashing(user.password);
     if (!hashPassword) return null;
 

@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"date_of_birth" text NOT NULL,
+	"password" text NOT NULL,
 	"email" text NOT NULL,
 	"phone" text NOT NULL,
 	"agreement" boolean NOT NULL,

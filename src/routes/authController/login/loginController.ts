@@ -7,7 +7,6 @@ const loginController = async (
   reply: FastifyReply,
 ) => {
   const { body } = request;
-  console.log("body", body);
   return await authService.login(reply, body);
 };
 

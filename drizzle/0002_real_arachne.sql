@@ -1,1 +1,0 @@
-ALTER TABLE "user" RENAME COLUMN "createdAt" TO "created_at";
