@@ -1,10 +1,8 @@
-import {
-  type FastifyInstance,
-  type FastifyReply,
-  type FastifyRequest,
-} from "fastify";
+import { type FastifyInstance, type FastifyRequest } from "fastify";
 import userRoutes from "./userController";
 import authRoutes from "./authController";
+import tokens from "./tokenController";
+import { authentificate } from "../decorators/util/authentificateHandler";
 
 export default function (
   fastify: FastifyInstance,
@@ -19,9 +17,16 @@ export default function (
     prefix: "/auth",
   });
 
-  fastify.get("/hello", (_request: FastifyRequest, reply: FastifyReply) => {
-    reply.send("Hello");
-  });
+  fastify.register(tokens);
+
+  fastify.get(
+    "/hello",
+    { onRequest: authentificate },
+    async (request: FastifyRequest, _reply) => {
+      console.log(request.cookies);
+      return "Hello World!";
+    },
+  );
 
   done();
 }

@@ -49,10 +49,18 @@ class AuthService implements AuthInterface {
       existingUser,
     );
 
-    return await response.code(401).send({
-      ...existingUser,
-      ...tokens,
-    });
+    return await response
+      .setCookie("refreshToken", tokens.refreshToken, {
+        path: "/",
+        secure: true, // send cookie over HTTPS only
+        httpOnly: true,
+        sameSite: true, // alternative CSRF protection
+      })
+      .code(200)
+      .send({
+        ...existingUser,
+        ...tokens,
+      });
   }
 
   public async logout(request: FastifyRequest, response: FastifyReply) {
@@ -80,9 +88,7 @@ class AuthService implements AuthInterface {
     const existingUser = await this.userService.getUserByEmail(userData.email);
 
     if (existingUser) {
-      return await reply
-        .code(400)
-        .send({ isError: true, message: "User exists" });
+      return await reply.code(400).send({ isError: true, message: "User exists" });
     }
 
     const createdUser = await this.userService.createUser(userData);
@@ -97,9 +103,6 @@ class AuthService implements AuthInterface {
         await this.tokenService.generateTokens(reply, createdUser);
 
       return await reply
-        .headers({
-          Authorization: `Bearer ${accessToken}`,
-        })
         .setCookie("refreshToken", refreshToken, {
           path: "/",
           secure: true,
