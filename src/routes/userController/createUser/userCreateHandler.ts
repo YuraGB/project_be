@@ -7,8 +7,13 @@ export const userCreateController = async (
   reply: FastifyReply,
 ) => {
   const { body } = request;
-
-  const existingUser = await userService.getUserByEmail(body.email);
+  let existingUser;
+  try {
+    existingUser = await userService.getUserByEmail(body.email);
+  } catch (err) {
+    console.log(err);
+    existingUser = null;
+  }
 
   if (existingUser) {
     reply.code(400).send({ isError: true, message: "User already exists" });

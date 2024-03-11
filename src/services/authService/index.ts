@@ -44,10 +44,19 @@ class AuthService implements AuthInterface {
         .send({ isError: true, message: "Invalid password" });
     }
 
-    const tokens = await this.tokenService.generateTokens(
-      response,
-      existingUser,
-    );
+    let tokens;
+    try {
+      tokens = await this.tokenService.generateTokens(response, existingUser);
+      await this.tokenService.saveRefreshToken(
+        existingUser.id,
+        tokens.refreshToken,
+      );
+    } catch (error) {
+      console.error("login", error);
+      return await response
+        .code(500)
+        .send({ isError: true, message: "Error: tokens not created" });
+    }
 
     return await response
       .setCookie("refreshToken", tokens.refreshToken, {
@@ -101,6 +110,9 @@ class AuthService implements AuthInterface {
     try {
       const { accessToken, refreshToken } =
         await this.tokenService.generateTokens(reply, createdUser);
+
+      // save refresh token to db
+      await this.tokenService.saveRefreshToken(createdUser.id, refreshToken);
 
       return await reply
         .setCookie("refreshToken", refreshToken, {
