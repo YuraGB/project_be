@@ -74,20 +74,19 @@ class AuthService implements AuthInterface {
 
   public async logout(request: FastifyRequest, response: FastifyReply) {
     const { refreshToken } = request.cookies;
-    if (refreshToken) {
-      const isDeleted = await this.tokenService.deleteToken(refreshToken);
-
-      if (isDeleted) {
-        return await response
-          .clearCookie("refreshToken")
-          .code(200)
-          .send({ message: "Logged out" });
-      }
-
-      return await response.code(500).send({ message: "Error" });
+    if (!refreshToken) {
+      return await response.code(401).send({ message: "Unauthorized" });
     }
 
-    return await response.code(401).send({ message: "Unauthorized" });
+    const isDeleted = await this.tokenService.deleteToken(refreshToken);
+    if (!isDeleted) {
+      return await response.code(401).send({ message: "Unauthorized" });
+    }
+
+    return await response
+      .clearCookie("refreshToken")
+      .code(200)
+      .send({ message: "Logged out" });
   }
 
   public async signUp(
@@ -107,6 +106,7 @@ class AuthService implements AuthInterface {
         .code(500)
         .send({ isError: true, message: "User not created" });
     }
+
     try {
       const { accessToken, refreshToken } =
         await this.tokenService.generateTokens(reply, createdUser);
@@ -128,6 +128,7 @@ class AuthService implements AuthInterface {
         });
     } catch (error) {
       console.error("signUp", error);
+
       return await reply
         .code(500)
         .send({ isError: true, message: "Error: tokens not created" });

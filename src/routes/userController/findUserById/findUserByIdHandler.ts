@@ -7,7 +7,6 @@ export const findUserByIdHandler = async (
   _reply: FastifyReply,
 ) => {
   const { params } = request;
-  console.log(params.id, "params.id");
   const user = await userService.getUserById(Number(params.id));
 
   return { user };

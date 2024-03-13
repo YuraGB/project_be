@@ -11,8 +11,8 @@ export const userCreateController = async (
   try {
     existingUser = await userService.getUserByEmail(body.email);
   } catch (err) {
-    console.log(err);
-    existingUser = null;
+    reply.code(500).send({ isError: true, message: "Internal server error" });
+    return;
   }
 
   if (existingUser) {
@@ -23,18 +23,11 @@ export const userCreateController = async (
   const createdUser = await userService.createUser(body);
 
   if (createdUser !== null) {
-    const token = await reply.jwtSign(createdUser);
-
-    return await reply
-      .setCookie("refreshToken", token, {
-        path: "/",
-        secure: true, // send cookie over HTTPS only
-        httpOnly: true,
-        sameSite: true, // alternative CSRF protection
-      })
-      .code(200)
-      .send(createdUser);
+    reply.code(201).send({ isError: false, message: "User created" });
+    return;
   }
 
-  return { isError: true, message: "User not created" };
+  return await reply
+    .code(500)
+    .send({ isError: true, message: "Internal server error" });
 };
