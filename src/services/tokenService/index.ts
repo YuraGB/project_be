@@ -10,9 +10,16 @@ class TokenService implements ITokenService {
     reply: FastifyReply,
     payload: User,
   ): Promise<string> {
-    return await reply.jwtSign(payload, {
-      expiresIn: "1h",
-    });
+    return await reply.jwtSign(
+      {
+        userEmail: payload.email,
+        userId: payload.id,
+        name: "access-token",
+      },
+      {
+        expiresIn: "1h",
+      },
+    );
   }
 
   async generateRefreshToken(
@@ -35,7 +42,14 @@ class TokenService implements ITokenService {
     return { accessToken, refreshToken };
   }
 
-  async saveRefreshToken(userId: number, refreshToken: string) {
+  async saveRefreshToken(
+    userId: number,
+    refreshToken: string,
+  ): Promise<{
+    id: number;
+    refreshToken: string;
+    userId: number | null;
+  } | null> {
     if (refreshToken && userId) {
       return await saveRefreshToken(userId, refreshToken);
     } else {
@@ -43,14 +57,17 @@ class TokenService implements ITokenService {
     }
   }
 
-  async deleteToken(refreshToken: string) {
+  async deleteToken(refreshToken: string): Promise<boolean | null> {
     if (refreshToken) {
       return await removeToken(refreshToken);
     }
     return false;
   }
 
-  async refreshToken(request: FastifyRequest, reply: FastifyReply) {
+  async refreshToken(
+    request: FastifyRequest,
+    reply: FastifyReply,
+  ): Promise<{ accessToken: string; refreshToken: string } | null> {
     const token = request.cookies.refreshToken;
     if (!token) {
       return null;

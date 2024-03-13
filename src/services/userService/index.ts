@@ -27,7 +27,7 @@ class UserService implements IUserService {
     return await createUser(newUser);
   }
 
-  async getUserByEmail(email: string) {
+  async getUserByEmail(email: string): Promise<User | null> {
     if (!email) {
       return null;
     }
@@ -37,21 +37,22 @@ class UserService implements IUserService {
     return await findUserByEmail(decodedEmail);
   }
 
-  async getUserById(id: number) {
+  async getUserById(id: number): Promise<User | null> {
     if (!id) return null;
     return await findUserById(id);
   }
 
-  async updateUser(user: User) {
+  async updateUser(user: User): Promise<User> {
     return user;
   }
 
-  async deleteUser(id: number) {
+  // todo: implement
+  async deleteUser(id: number): Promise<void> {
     console.log(id);
     await Promise.resolve();
   }
 
-  async getUsers() {
+  async getUsers(): Promise<User[] | null> {
     return await findUsers();
   }
 }
