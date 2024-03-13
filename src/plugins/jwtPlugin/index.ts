@@ -6,7 +6,7 @@ export default {
     signed: true,
   },
   decode: { complete: true },
-  jwtVerify: "securityVerify",
+  jwtVerify: process.env.JWT_SECURITY_VERIFY ?? "securityVerify",
   sign: {
     expiresIn: "1h",
   },
