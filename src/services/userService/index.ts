@@ -6,11 +6,14 @@ import { findUserById } from "../../model/user/findUser/findUserById";
 import { findUsers } from "../../model/user/findUser/findUsers";
 import { type ICreateUser } from "../../routes/userController/createUser/types";
 import { passwordHashing } from "../util/passwordHashing";
+import { type TRequestUpdateUser } from "../../routes/userController/updateUser/types";
+import { userUpdate } from "../../model/user/updateUser";
+import { type TDeleteUser, userDelete } from "../../model/user/deleteUser";
 
 class UserService implements IUserService {
   async createUser(user: ICreateUser) {
     if (!user) return null;
-    console.log(user, 13);
+
     const hashPassword = await passwordHashing(user.password);
     if (!hashPassword) return null;
 
@@ -23,7 +26,6 @@ class UserService implements IUserService {
       phoneNumber: user.phoneNumber,
     };
 
-    // todo: validate user
     return await createUser(newUser);
   }
 
@@ -42,14 +44,20 @@ class UserService implements IUserService {
     return await findUserById(id);
   }
 
-  async updateUser(user: User): Promise<User> {
-    return user;
+  async updateUser(user: TRequestUpdateUser): Promise<User | null> {
+    if (!user) return null;
+
+    const existingUser = await this.getUserById(user.id);
+    if (!existingUser) return null;
+
+    const updatedUser = userUpdate(user);
+    return await updatedUser;
   }
 
-  // todo: implement
-  async deleteUser(id: number): Promise<void> {
-    console.log(id);
-    await Promise.resolve();
+  async deleteUser(id: number): TDeleteUser {
+    if (!id) return null;
+
+    return await userDelete(id);
   }
 
   async getUsers(): Promise<User[] | null> {

@@ -1,14 +1,17 @@
 import { type FastifyReply, type FastifyRequest } from "fastify";
-import { type IUserService } from "../userService/types";
-import { type ITokenService } from "../tokenService/types";
+
 import {
   type AuthInterface,
   type SignUpErrorResponse,
   type SignUpSuccessResponse,
   type TLoginRequest,
 } from "./types";
+
 import userService from "../userService";
 import tokenService from "../tokenService";
+import { type IUserService } from "../userService/types";
+import { type ITokenService } from "../tokenService/types";
+
 import { passwordCompare } from "../util/passwordHashing";
 import { type ICreateUser } from "../../routes/userController/createUser/types";
 
@@ -96,7 +99,9 @@ class AuthService implements AuthInterface {
     const existingUser = await this.userService.getUserByEmail(userData.email);
 
     if (existingUser) {
-      return await reply.code(400).send({ isError: true, message: "User exists" });
+      return await reply
+        .code(400)
+        .send({ isError: true, message: "User exists" });
     }
 
     const createdUser = await this.userService.createUser(userData);

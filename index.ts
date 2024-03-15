@@ -3,6 +3,7 @@ import { build } from "./src/server";
 const app = build({
   logger: true,
 });
+
 // Run the server!
 try {
   await app.listen({ port: 3000 });
