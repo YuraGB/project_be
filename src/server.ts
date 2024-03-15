@@ -8,20 +8,18 @@ import { staticFilesRoute } from "./routes/staticFilesController/staticFilesRout
 import routes from "./routes";
 
 import jwtConfig from "./plugins/jwtPlugin/";
+import cookiesConfig from "./plugins/cookiesPlugin/";
+import corsConfig from "./plugins/corsPlugin/";
+
 import decorators from "./decorators";
 
 const build = (opts = {}) => {
   const app = fastify(opts);
 
   // Plugins
-  app.register(cookie, {
-    secret: "my-secret", // for cookies signature
-    parseOptions: {}, // options for parsing cookies
-  } as FastifyCookieOptions);
+  app.register(cookie, cookiesConfig as FastifyCookieOptions);
   app.register(fastifyJwt, jwtConfig);
-  app.register(cors, {
-    origin: "*",
-  });
+  app.register(cors, corsConfig);
 
   // Routes
   app.register(routes);
