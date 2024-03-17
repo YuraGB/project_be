@@ -6,6 +6,9 @@ import {
   timestamp,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { TokenTable } from "./token";
+import { PagesTable } from "./page";
 
 export const UsersTable = pgTable(
   "user",
@@ -25,3 +28,10 @@ export const UsersTable = pgTable(
     };
   },
 );
+export const userRelations = relations(UsersTable, ({ one, many }) => ({
+  token: one(TokenTable, {
+    fields: [UsersTable.id],
+    references: [TokenTable.userId],
+  }),
+  pages: many(PagesTable),
+}));
