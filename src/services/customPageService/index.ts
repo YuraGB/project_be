@@ -90,7 +90,7 @@ class CustomPageService {
     for (let i = 0; i < formattedWidgets.length; i++) {
       const widgetType = formattedWidgets[0].widgets;
       await Promise.allSettled(
-        widgetType.map(async (w: TWidget) => await this.widgetService.createWidget(w)),
+        widgetType.map((w: TWidget) => this.widgetService.createWidget(w)),
       );
     }
 
