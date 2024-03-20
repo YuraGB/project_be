@@ -12,7 +12,10 @@ import {
 import { getPageById } from "../../model/page/getPageById";
 import { getWidgetsByPageId } from "../../model/widget/getWidgetsByPageId";
 import { getPagesByUserId } from "../../model/page/getPagesByUserId";
-import { removePage, type TRemovePageResponse } from "../../model/page/removePage";
+import {
+  removePage,
+  type TRemovePageResponse,
+} from "../../model/page/removePage";
 
 class CustomPageService {
   userService: IUserService;
@@ -87,9 +90,7 @@ class CustomPageService {
     for (let i = 0; i < formattedWidgets.length; i++) {
       const widgetType = formattedWidgets[0].widgets;
       await Promise.allSettled(
-        widgetType.map(
-          async (w: TWidget) => await this.widgetService.createWidget(w),
-        ),
+        widgetType.map(async (w: TWidget) => await this.widgetService.createWidget(w)),
       );
     }
 

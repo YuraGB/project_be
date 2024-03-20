@@ -7,7 +7,6 @@ export const saveRefreshToken = async (
   refreshToken: string,
 ): Promise<Token | null> => {
   try {
-    console.log("saveRefreshToken", userId, refreshToken);
     const [token] = await db
       .insert(TokenTable)
       .values({ userId, refreshToken })
