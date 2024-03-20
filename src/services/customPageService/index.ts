@@ -1,4 +1,4 @@
-import { type TPageData } from "./types";
+import { type TPage, type TPageData } from "./types";
 import { type IUserService } from "../userService/types";
 import { pageCreate } from "../../model/page/pageCreate";
 import userService from "../userService";
@@ -11,16 +11,27 @@ import {
 } from "../../routes/customPagesController/customePageCreate/types";
 import { getPageById } from "../../model/page/getPageById";
 import { getWidgetsByPageId } from "../../model/widget/getWidgetsByPageId";
+import { getPagesByUserId } from "../../model/page/getPagesByUserId";
+import { removePage, type TRemovePageResponse } from "../../model/page/removePage";
 
 class CustomPageService {
   userService: IUserService;
   widgetService: IWidgetService;
 
+  /**
+   * Constructor
+   * @param userService
+   * @param widgetService
+   */
   constructor(userService: IUserService, widgetService: IWidgetService) {
     this.userService = userService;
     this.widgetService = widgetService;
   }
 
+  /**
+   * Get custom page data
+   * @param pageId
+   */
   public async getCustomPageData(
     pageId: number,
   ): Promise<TPageResponse | null> {
@@ -76,11 +87,48 @@ class CustomPageService {
     for (let i = 0; i < formattedWidgets.length; i++) {
       const widgetType = formattedWidgets[0].widgets;
       await Promise.allSettled(
-        widgetType.map(async (w: TWidget) => await this.widgetService.createWidget(w)),
+        widgetType.map(
+          async (w: TWidget) => await this.widgetService.createWidget(w),
+        ),
       );
     }
 
     return createdPage;
+  }
+
+  /**
+   * Get custom pages data by user id
+   * @param id
+   */
+  public async getCustomPagesDataByUserId(id: number): Promise<TPage[] | null> {
+    const user = await this.userService.getUserById(id);
+
+    if (user === null) {
+      throw new Error("User not found");
+    }
+
+    const pageData = await getPagesByUserId(id);
+
+    if (pageData === null) {
+      return null;
+    }
+
+    return pageData.map((page) => ({
+      id: page.id,
+      title: page.title,
+      widgets: page.youtubeWidgets,
+    }));
+  }
+
+  public async removePage(id: number): Promise<TRemovePageResponse | null> {
+    if (!id) return null;
+
+    const getPage = await getPageById(id);
+
+    if (!getPage) return null;
+
+    // todo remove widgets
+    return await removePage(id);
   }
 }
 

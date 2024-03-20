@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1710178693549,
-      "tag": "0000_thankful_wolfpack",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1710687266257,
-      "tag": "0001_flimsy_anita_blake",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1710850245406,
-      "tag": "0002_simple_scarlet_spider",
+      "when": 1710964285913,
+      "tag": "0000_strong_proudstar",
       "breakpoints": true
     }
   ]

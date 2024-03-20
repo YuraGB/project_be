@@ -1,6 +1,6 @@
 import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { UsersTable } from "./user";
-import { relations } from "drizzle-orm";
+import { type InferSelectModel, relations } from "drizzle-orm";
 import { YoutubeWidget } from "./widget";
 
 export const PagesTable = pgTable("page", {
@@ -17,3 +17,5 @@ export const pageRelations = relations(PagesTable, ({ one, many }) => ({
   }),
   youtubeWidgets: many(YoutubeWidget),
 }));
+
+export type TPageSchema = InferSelectModel<typeof PagesTable>;

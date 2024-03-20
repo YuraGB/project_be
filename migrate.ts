@@ -8,3 +8,5 @@ const migrationsClient = postgres(process?.env?.POSTGRES_URL ?? "", {
 
 const db = drizzle(migrationsClient);
 await migrate(db, { migrationsFolder: "drizzle" });
+
+export { migrationsClient };

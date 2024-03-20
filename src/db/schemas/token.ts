@@ -1,6 +1,6 @@
 import { integer, pgTable, serial, text } from "drizzle-orm/pg-core";
 import { UsersTable } from "./user";
-import { relations } from "drizzle-orm";
+import { type InferSelectModel, relations } from "drizzle-orm";
 
 export const TokenTable = pgTable("tokens", {
   id: serial("id").primaryKey(),
@@ -14,3 +14,5 @@ export const tokenRelations = relations(TokenTable, ({ one }) => ({
     references: [UsersTable.id],
   }),
 }));
+
+export type TTokenSchema = InferSelectModel<typeof TokenTable>;

@@ -5,9 +5,10 @@ export const authentificate = function (
   reply: FastifyReply,
 ) {
   try {
+    console.log("authentificate");
     void request.jwtVerify();
   } catch (err) {
-    console.log(err);
+    console.log(err, "err");
     reply.send(err);
   }
 };

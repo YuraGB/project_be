@@ -1,6 +1,6 @@
 import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { PagesTable } from "./page";
-import { relations } from "drizzle-orm";
+import { type InferSelectModel, relations } from "drizzle-orm";
 
 export const YoutubeWidget = pgTable("youtube_widget", {
   id: serial("id").primaryKey(),
@@ -17,3 +17,5 @@ export const YoutubeWidgetRelations = relations(YoutubeWidget, ({ one }) => ({
     references: [PagesTable.id],
   }),
 }));
+
+export type TYoutubeWidgetSchema = InferSelectModel<typeof YoutubeWidget>;

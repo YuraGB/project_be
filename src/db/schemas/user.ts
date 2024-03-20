@@ -6,7 +6,7 @@ import {
   timestamp,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
+import { type InferSelectModel, relations } from "drizzle-orm";
 import { TokenTable } from "./token";
 import { PagesTable } from "./page";
 
@@ -35,3 +35,5 @@ export const userRelations = relations(UsersTable, ({ one, many }) => ({
   }),
   pages: many(PagesTable),
 }));
+
+export type TUserSchema = InferSelectModel<typeof UsersTable>;
