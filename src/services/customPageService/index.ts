@@ -16,9 +16,17 @@ import {
   removePage,
   type TRemovePageResponse,
 } from "../../model/page/removePage";
+import { removeWidget } from "../../model/widget/removeWidget";
 
 class CustomPageService {
+  /**
+   * User service
+   */
   userService: IUserService;
+
+  /**
+   * Widget service
+   */
   widgetService: IWidgetService;
 
   /**
@@ -53,6 +61,10 @@ class CustomPageService {
     };
   }
 
+  /**
+   * Create custom page
+   * @param data
+   */
   public async createCustomPage(
     data: TPageData["Body"],
   ): Promise<{ pageId: number | null } | null> {
@@ -90,7 +102,7 @@ class CustomPageService {
     for (let i = 0; i < formattedWidgets.length; i++) {
       const widgetType = formattedWidgets[0].widgets;
       await Promise.allSettled(
-        widgetType.map((w: TWidget) => this.widgetService.createWidget(w)),
+        widgetType.map(async (w: TWidget) => await this.widgetService.createWidget(w)),
       );
     }
 
@@ -121,6 +133,10 @@ class CustomPageService {
     }));
   }
 
+  /**
+   * Remove page
+   * @param id page id
+   */
   public async removePage(id: number): Promise<TRemovePageResponse | null> {
     if (!id) return null;
 
@@ -128,7 +144,14 @@ class CustomPageService {
 
     if (!getPage) return null;
 
-    // todo remove widgets
+    /**
+     * Remove all widgets from page
+     * @param {number} id Page id
+     */
+    const removedWidgets = await removeWidget(id);
+
+    if (!removedWidgets) return null;
+
     return await removePage(id);
   }
 }

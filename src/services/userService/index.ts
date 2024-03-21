@@ -11,7 +11,11 @@ import { userUpdate } from "../../model/user/updateUser";
 import { type TDeleteUser, userDelete } from "../../model/user/deleteUser";
 
 class UserService implements IUserService {
-  async createUser(user: ICreateUser) {
+  /**
+   * Create user
+   * @param user
+   */
+  public async createUser(user: ICreateUser) {
     if (!user) return null;
 
     const hashPassword = await passwordHashing(user.password);
@@ -29,7 +33,11 @@ class UserService implements IUserService {
     return await createUser(newUser);
   }
 
-  async getUserByEmail(email: string): Promise<User | null> {
+  /**
+   * Get user by email
+   * @param email
+   */
+  public async getUserByEmail(email: string): Promise<User | null> {
     if (!email) {
       return null;
     }
@@ -39,12 +47,20 @@ class UserService implements IUserService {
     return await findUserByEmail(decodedEmail);
   }
 
-  async getUserById(id: number): Promise<User | null> {
+  /**
+   * Get user by id
+   * @param id
+   */
+  public async getUserById(id: number): Promise<User | null> {
     if (!id) return null;
     return await findUserById(id);
   }
 
-  async updateUser(user: TRequestUpdateUser): Promise<User | null> {
+  /**
+   * Update user
+   * @param user
+   */
+  public async updateUser(user: TRequestUpdateUser): Promise<User | null> {
     if (!user) return null;
 
     const existingUser = await this.getUserById(user.id);
@@ -54,13 +70,18 @@ class UserService implements IUserService {
     return await updatedUser;
   }
 
-  async deleteUser(id: number): TDeleteUser {
+  /**
+   * Delete user
+   * @param id
+   */
+  public async deleteUser(id: number): TDeleteUser {
     if (!id) return null;
 
     return await userDelete(id);
   }
 
-  async getUsers(): Promise<User[] | null> {
+  /** Get users */
+  public async getUsers(): Promise<User[] | null> {
     return await findUsers();
   }
 }

@@ -1,4 +1,4 @@
-import { type FastifyReply, type FastifyRequest } from "fastify";
+import { type FastifyReply } from "fastify";
 import { type User } from "../userService/types";
 import { type TokenTable } from "../../db/schemas/token";
 import { type InferSelectModel } from "drizzle-orm";
@@ -18,7 +18,7 @@ export interface ITokenService {
   ) => Promise<Token | null>;
   deleteToken: (refreshToken: string) => Promise<boolean | null>;
   refreshToken: (
-    request: FastifyRequest,
+    token: { payload: User },
     reply: FastifyReply,
   ) => Promise<{ accessToken: string; refreshToken: string } | null>;
 }

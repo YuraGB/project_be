@@ -1,5 +1,5 @@
 import "dotenv/config";
-import fastify, { type FastifyReply } from "fastify";
+import fastify, { type FastifyInstance, type FastifyReply } from "fastify";
 import cookie, { type FastifyCookieOptions } from "@fastify/cookie";
 import fastifyJwt from "@fastify/jwt";
 import cors from "@fastify/cors";
@@ -13,7 +13,7 @@ import corsConfig from "./plugins/corsPlugin/";
 
 import decorators from "./decorators";
 
-const build = (opts = {}) => {
+const build = (opts = {}): FastifyInstance => {
   const app = fastify(opts);
 
   // Plugins

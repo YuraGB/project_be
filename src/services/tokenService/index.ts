@@ -1,11 +1,16 @@
 import "dotenv/config";
-import { type FastifyReply, type FastifyRequest } from "fastify";
+import { type FastifyReply } from "fastify";
 import { type User } from "../userService/types";
 import { type ITokenService } from "./types";
 import { saveRefreshToken } from "../../model/token/seveRefreshToken";
 import { removeToken } from "../../model/token/removeToken";
 
 class TokenService implements ITokenService {
+  /**
+   * Generate access token
+   * @param reply
+   * @param payload
+   */
   async generateAccessToken(
     reply: FastifyReply,
     payload: User,
@@ -22,6 +27,11 @@ class TokenService implements ITokenService {
     );
   }
 
+  /**
+   * Generate refresh token
+   * @param reply
+   * @param payload
+   */
   async generateRefreshToken(
     reply: FastifyReply,
     payload: User,
@@ -36,13 +46,21 @@ class TokenService implements ITokenService {
     user: User,
   ): Promise<{ accessToken: string; refreshToken: string }> {
     const [refreshToken, accessToken] = await Promise.all([
-      this.generateRefreshToken(reply, user),
       this.generateAccessToken(reply, user),
+      // refresh token should be in the end
+      // because during "jwtVerify" well take the last generated token
+      // by "reply.jwtSign"
+      this.generateRefreshToken(reply, user),
     ]);
     return { accessToken, refreshToken };
   }
 
-  async saveRefreshToken(
+  /**
+   * Save refresh token
+   * @param userId
+   * @param refreshToken
+   */
+  public async saveRefreshToken(
     userId: number,
     refreshToken: string,
   ): Promise<{
@@ -57,38 +75,40 @@ class TokenService implements ITokenService {
     }
   }
 
-  async deleteToken(refreshToken: string): Promise<boolean | null> {
+  /**
+   * Delete refresh token
+   * @param refreshToken
+   */
+  public async deleteToken(refreshToken: string): Promise<boolean | null> {
     if (refreshToken) {
       return await removeToken(refreshToken);
     }
     return false;
   }
 
-  async refreshToken(
-    request: FastifyRequest,
+  public async refreshToken(
+    token: { payload: User },
     reply: FastifyReply,
-  ): Promise<{ accessToken: string; refreshToken: string } | null> {
-    const token = request.cookies.refreshToken;
+  ): Promise<{ accessToken: string; refreshToken: string; user: User } | null> {
     if (!token) {
       return null;
     }
-    const decodedToken: { payload: Partial<User> } = await request.jwtDecode();
 
     // take only users fields
     const user = {
-      id: decodedToken.payload.id,
-      email: decodedToken.payload.email,
-      password: decodedToken.payload.password,
-      name: decodedToken.payload.name,
-      dateOfBirth: decodedToken.payload.dateOfBirth,
-      createdAt: decodedToken.payload.createdAt,
-      phoneNumber: decodedToken.payload.phoneNumber,
-      agreement: decodedToken.payload.agreement,
+      id: token.payload.id,
+      email: token.payload.email,
+      password: token.payload.password,
+      name: token.payload.name,
+      dateOfBirth: token.payload.dateOfBirth,
+      createdAt: token.payload.createdAt,
+      phoneNumber: token.payload.phoneNumber,
+      agreement: token.payload.agreement,
     } as User;
 
     const tokens = await this.generateTokens(reply, user);
     await this.saveRefreshToken(user.id, tokens.refreshToken);
-    return tokens;
+    return { ...tokens, user };
   }
 }
 
