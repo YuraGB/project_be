@@ -17,11 +17,11 @@ class WidgetService implements IWidgetService {
   public async getWidget(id: number, type: string): Promise<TWidget | null> {
     return await getWidgetById(id, type);
   }
+  
   /**
    *  Create widget
    * @param widget
    */
-  public async createWidget(widget: TWidget): Promise<TWidget | null> {
   public async createWidget(widget: TWidget): Promise<Widget | null> {
     const { type } = widget;
     if (type === "youtube")
