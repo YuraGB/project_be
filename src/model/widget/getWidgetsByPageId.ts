@@ -2,7 +2,16 @@ import { YoutubeWidget } from "../../db/schemas/widget";
 import { eq } from "drizzle-orm";
 import { db } from "../../db/db";
 
-export const getWidgetsByPageId = async (pageId: number) => {
+export type TGetWidgetsByPageId = Array<{
+  id: number;
+  youtube_id: string;
+  type: string;
+  youtube_title: string;
+}>;
+
+export const getWidgetsByPageId = async (
+  pageId: number,
+): Promise<TGetWidgetsByPageId | null> => {
   try {
     return await db
       .select({
