@@ -7,9 +7,9 @@ export interface TRequestCreatePage {
 }
 
 export interface TPageResponse {
-  id: string;
+  id: number;
   title: string;
-  widgets: TWidget[];
+  youtubeWidgets?: TYoutubeWidget[];
 }
 
 export interface TSaveWidgets {
@@ -17,12 +17,16 @@ export interface TSaveWidgets {
   widgets: TWidget[];
 }
 
-export type TWidget<T = object, K = object, Z = ""> = {
+export type Widget = {
   id: number;
-  type: string | Z;
+  type: string;
+} & TYoutubeType;
+
+export type TWidget<T = object> = {
+  id: number;
+  type: string;
   pageId?: number | null;
-} & T &
-  K;
+} & T;
 
 export interface TYoutubeType {
   youtube_title: string;
@@ -33,4 +37,5 @@ export interface TPageId {
   pageId: number | null;
 }
 
-export type TYoutubeWidget = TWidget<TYoutubeType, TPageId>;
+export type TYoutubeWidget = TYoutubeType &
+  TPageId & { id: number; type: string };

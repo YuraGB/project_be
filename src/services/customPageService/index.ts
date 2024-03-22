@@ -10,13 +10,13 @@ import {
   type TWidget,
 } from "../../routes/customPagesController/customePageCreate/types";
 import { getPageById } from "../../model/page/getPageById";
-import { getWidgetsByPageId } from "../../model/widget/getWidgetsByPageId";
 import { getPagesByUserId } from "../../model/page/getPagesByUserId";
 import {
   removePage,
   type TRemovePageResponse,
 } from "../../model/page/removePage";
 import { removeWidget } from "../../model/widget/removeWidget";
+import { formattedPagesResponse } from "./util/formatgetPagesResponse";
 
 class CustomPageService {
   /**
@@ -44,21 +44,23 @@ class CustomPageService {
    * @param pageId
    */
   public async getCustomPageData(
-    pageId: number,
+    _pageId: number,
   ): Promise<TPageResponse | null> {
-    const page = await getPageById(pageId);
+    // const page = await getPageById(pageId);
+    //
+    // if (page === null) {
+    //   throw new Error("Page not found");
+    // }
+    //
+    // const widgets = await getWidgetsByPageId(pageId);
+    //
+    // return {
+    //   id: page.id,
+    //   title: page.title,
+    //   widgets: widgets ?? [],
+    // };
 
-    if (page === null) {
-      throw new Error("Page not found");
-    }
-
-    const widgets = await getWidgetsByPageId(pageId);
-
-    return {
-      id: page.id.toString(),
-      title: page.title,
-      widgets: widgets ?? [],
-    };
+    return null;
   }
 
   /**
@@ -125,12 +127,8 @@ class CustomPageService {
     if (pageData === null) {
       return null;
     }
-
-    return pageData.map((page) => ({
-      id: page.id,
-      title: page.title,
-      widgets: page.youtubeWidgets,
-    }));
+    console.log(pageData, "pageData");
+    return formattedPagesResponse(pageData);
   }
 
   /**

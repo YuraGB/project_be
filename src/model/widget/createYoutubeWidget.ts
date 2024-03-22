@@ -14,3 +14,5 @@ export const createYoutubeWidget = async (widgets: TYoutubeWidget[]) => {
     return null;
   }
 };
+
+export type TCreateYoutubeWidget = typeof createYoutubeWidget;
