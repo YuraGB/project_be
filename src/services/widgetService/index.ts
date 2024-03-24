@@ -17,7 +17,7 @@ class WidgetService implements IWidgetService {
   public async getWidget(id: number, type: string): Promise<TWidget | null> {
     return await getWidgetById(id, type);
   }
-  
+
   /**
    *  Create widget
    * @param widget
@@ -52,8 +52,6 @@ class WidgetService implements IWidgetService {
    * Delete widget
    * @param _id
    */
-  public async updateWidget(_widget: TWidget): Promise<undefined> {}
-
   public async deleteWidget(_id: number): Promise<undefined> {}
 }
 
