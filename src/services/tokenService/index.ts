@@ -17,8 +17,7 @@ class TokenService implements ITokenService {
   ): Promise<string> {
     return await reply.jwtSign(
       {
-        userEmail: payload.email,
-        userId: payload.id,
+        ...payload,
         name: "access-token",
       },
       {
@@ -46,11 +45,11 @@ class TokenService implements ITokenService {
     user: User,
   ): Promise<{ accessToken: string; refreshToken: string }> {
     const [refreshToken, accessToken] = await Promise.all([
-      this.generateAccessToken(reply, user),
+      await this.generateAccessToken(reply, user),
       // refresh token should be in the end
       // because during "jwtVerify" well take the last generated token
       // by "reply.jwtSign"
-      this.generateRefreshToken(reply, user),
+      await this.generateRefreshToken(reply, user),
     ]);
     return { accessToken, refreshToken };
   }

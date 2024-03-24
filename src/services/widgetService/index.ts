@@ -1,6 +1,7 @@
 import {
   type TWidget,
   type TYoutubeWidget,
+  type Widget,
 } from "../../routes/customPagesController/customePageCreate/types";
 import { createYoutubeWidget } from "../../model/widget/createYoutubeWidget";
 import { getWidgetById } from "../../model/widget/getWidgetById";
@@ -21,7 +22,7 @@ class WidgetService implements IWidgetService {
    *  Create widget
    * @param widget
    */
-  public async createWidget(widget: TWidget): Promise<TWidget | null> {
+  public async createWidget(widget: TWidget): Promise<Widget | null> {
     const { type } = widget;
     if (type === "youtube")
       return await this.createYoutubeWidget(widget as TYoutubeWidgetSchema);
