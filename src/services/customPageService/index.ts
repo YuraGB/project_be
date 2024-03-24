@@ -15,6 +15,7 @@ import {
   removePage,
   type TRemovePageResponse,
 } from "../../model/page/removePage";
+import { removeWidget } from "../../model/widget/removeWidget";
 import { formattedPagesResponse } from "./util/formatgetPagesResponse";
 import { removeWidget } from "../../model/widget/removeWidget";
 

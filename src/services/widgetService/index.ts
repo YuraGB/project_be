@@ -41,6 +41,7 @@ class WidgetService implements IWidgetService {
     return await createYoutubeWidget(Array.isArray(widget) ? widget : [widget]);
   }
 
+
   /**
    * Update widget
    * @param _widget

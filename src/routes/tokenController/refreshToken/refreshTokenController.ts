@@ -19,7 +19,7 @@ const refreshTokenController = async (
   if (!decodedToken) {
     return null;
   }
-  console.log("decodedToken", decodedToken);
+
   if (typeof decodedToken !== "string" && "payload" in decodedToken) {
     const resp = await tokenService.refreshToken(
       decodedToken as { payload: User },

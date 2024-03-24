@@ -45,11 +45,13 @@ class TokenService implements ITokenService {
     user: User,
   ): Promise<{ accessToken: string; refreshToken: string }> {
     const [refreshToken, accessToken] = await Promise.all([
+
       await this.generateAccessToken(reply, user),
       // refresh token should be in the end
       // because during "jwtVerify" well take the last generated token
       // by "reply.jwtSign"
       await this.generateRefreshToken(reply, user),
+
     ]);
     return { accessToken, refreshToken };
   }
