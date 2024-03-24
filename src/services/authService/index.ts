@@ -16,14 +16,30 @@ import { passwordCompare } from "../util/passwordHashing";
 import { type ICreateUser } from "../../routes/userController/createUser/types";
 
 class AuthService implements AuthInterface {
+  /**
+   * User service
+   */
   userService: IUserService;
+  /**
+   * Token service
+   */
   tokenService: ITokenService;
 
+  /**
+   * Constructor
+   * @param userService
+   * @param tokenService
+   */
   constructor(userService: IUserService, tokenService: ITokenService) {
     this.userService = userService;
     this.tokenService = tokenService;
   }
 
+  /**
+   * Login
+   * @param response
+   * @param user
+   */
   public async login(
     response: FastifyReply,
     user: TLoginRequest,
@@ -75,6 +91,11 @@ class AuthService implements AuthInterface {
       });
   }
 
+  /**
+   * Logout
+   * @param request
+   * @param response
+   */
   public async logout(request: FastifyRequest, response: FastifyReply) {
     const { refreshToken } = request.cookies;
     if (!refreshToken) {
@@ -92,6 +113,11 @@ class AuthService implements AuthInterface {
       .send({ message: "Logged out" });
   }
 
+  /**
+   * Sign up
+   * @param reply
+   * @param userData
+   */
   public async signUp(
     reply: FastifyReply,
     userData: ICreateUser,
