@@ -25,7 +25,7 @@ class WidgetService implements IWidgetService {
   public async createWidget(widget: TWidget): Promise<Widget | null> {
     const { type } = widget;
     if (type === "youtube")
-      return await this.createYoutubeWidget(widget as TYoutubeWidgetSchema);
+      return await this.createYoutubeWidget(widget as TYoutubeWidget);
 
     throw new Error("Invalid widget type");
   }
@@ -38,9 +38,17 @@ class WidgetService implements IWidgetService {
   private async createYoutubeWidget(
     widget: TYoutubeWidget | TYoutubeWidget[],
   ): Promise<TYoutubeWidgetSchema | null> {
-    return await createYoutubeWidget(Array.isArray(widget) ? widget : [widget]);
-  }
+    const widgetsToSave = Array.isArray(widget) ? widget : [widget];
+    const youtubeWidgets = widgetsToSave.map(
+      ({ youtube_title, title, ...rest }) => ({
+        ...rest,
+        youtube_title,
+        title: title ?? youtube_title,
+      }),
+    );
 
+    return await createYoutubeWidget(youtubeWidgets);
+  }
 
   /**
    * Update widget

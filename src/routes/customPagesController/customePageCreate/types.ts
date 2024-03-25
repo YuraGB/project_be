@@ -31,6 +31,7 @@ export type TWidget<T = object> = {
 export interface TYoutubeType {
   youtube_title: string;
   youtube_id: string;
+  title?: string;
 }
 
 export interface TPageId {
