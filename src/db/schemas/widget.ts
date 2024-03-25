@@ -4,6 +4,7 @@ import { type InferSelectModel, relations } from "drizzle-orm";
 
 export const YoutubeWidget = pgTable("youtube_widget", {
   id: serial("id").primaryKey(),
+  title: text("title").notNull().default(""),
   type: text("youtube_widget").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   youtube_title: text("youtube_title").notNull(),
