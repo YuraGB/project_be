@@ -17,7 +17,6 @@ import {
 } from "../../model/page/removePage";
 import { removeWidget } from "../../model/widget/removeWidget";
 import { formattedPagesResponse } from "./util/formatgetPagesResponse";
-import { removeWidget } from "../../model/widget/removeWidget";
 
 class CustomPageService {
   /**
@@ -42,25 +41,11 @@ class CustomPageService {
 
   /**
    * Get custom page data
-   * @param pageId
+   * @param _pageId
    */
   public async getCustomPageData(
     _pageId: number,
   ): Promise<TPageResponse | null> {
-    // const page = await getPageById(pageId);
-    //
-    // if (page === null) {
-    //   throw new Error("Page not found");
-    // }
-    //
-    // const widgets = await getWidgetsByPageId(pageId);
-    //
-    // return {
-    //   id: page.id,
-    //   title: page.title,
-    //   widgets: widgets ?? [],
-    // };
-
     return null;
   }
 
@@ -105,7 +90,9 @@ class CustomPageService {
     for (let i = 0; i < formattedWidgets.length; i++) {
       const widgetType = formattedWidgets[0].widgets;
       await Promise.allSettled(
-        widgetType.map(async (w: TWidget) => await this.widgetService.createWidget(w)),
+        widgetType.map(
+          async (w: TWidget) => await this.widgetService.createWidget(w),
+        ),
       );
     }
 
@@ -128,7 +115,7 @@ class CustomPageService {
     if (pageData === null) {
       return null;
     }
-    console.log(pageData, "pageData");
+
     return formattedPagesResponse(pageData);
   }
 
