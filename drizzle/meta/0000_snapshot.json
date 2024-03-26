@@ -1,5 +1,5 @@
 {
-  "id": "56499630-260c-4024-aeae-863b47130bb8",
+  "id": "6c3b6f8d-160e-446d-a0c1-4f182b47692d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -167,6 +167,13 @@
           "type": "serial",
           "primaryKey": true,
           "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
         },
         "youtube_widget": {
           "name": "youtube_widget",

@@ -7,9 +7,7 @@ const customePagesCreateController = async (
   _reply: FastifyReply,
 ) => {
   const { body } = request;
-  console.log(body);
-  const createPage = await customPageService.createCustomPage(body);
-  return createPage;
+  return await customPageService.createCustomPage(body);
 };
 
 export default customePagesCreateController;

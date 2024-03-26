@@ -1,1 +1,0 @@
-ALTER TABLE "youtube_widget" ADD COLUMN "title" text;

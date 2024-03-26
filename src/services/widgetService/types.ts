@@ -5,7 +5,7 @@ import {
 
 export interface IWidgetService {
   createWidget: (widgetData: TWidget) => Promise<Widget | null>;
-  updateWidget: (widgetData: TWidget) => Promise<undefined>;
+  updateWidget: (widgetData: TWidget) => Promise<{ id: number } | null>;
   deleteWidget: (id: number) => Promise<undefined>;
   getWidget: (id: number, type: string) => Promise<TWidget | null>;
 }

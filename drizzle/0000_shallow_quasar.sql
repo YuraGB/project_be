@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "youtube_widget" (
 	"id" serial PRIMARY KEY NOT NULL,
+	"title" text DEFAULT '' NOT NULL,
 	"youtube_widget" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"youtube_title" text NOT NULL,

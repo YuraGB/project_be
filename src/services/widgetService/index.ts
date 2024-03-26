@@ -7,6 +7,7 @@ import { createYoutubeWidget } from "../../model/widget/createYoutubeWidget";
 import { getWidgetById } from "../../model/widget/getWidgetById";
 import { type IWidgetService } from "./types";
 import { type TYoutubeWidgetSchema } from "../../db/schemas/widget";
+import { youtubeWidgetUpdate } from "../../model/widget/youtubeWidgetUpdate";
 
 class WidgetService implements IWidgetService {
   /**
@@ -50,11 +51,21 @@ class WidgetService implements IWidgetService {
     return await createYoutubeWidget(youtubeWidgets);
   }
 
-  /**
-   * Update widget
-   * @param _widget
-   */
-  public async updateWidget(_widget: TWidget): Promise<undefined> {}
+  public async updateWidget(widget: TWidget): Promise<{ id: number } | null> {
+    const { type } = widget;
+
+    if (type === "youtube") {
+      return await this.updateYoutubeWidget(widget as TYoutubeWidget);
+    }
+
+    throw new Error("Invalid widget type");
+  }
+
+  public async updateYoutubeWidget(
+    widget: TYoutubeWidget,
+  ): Promise<{ id: number } | null> {
+    return await youtubeWidgetUpdate(widget);
+  }
 
   /**
    * Delete widget

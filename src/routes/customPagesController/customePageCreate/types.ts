@@ -39,4 +39,4 @@ export interface TPageId {
 }
 
 export type TYoutubeWidget = TYoutubeType &
-  TPageId & { id: number; type: string };
+  TPageId & { id?: number; type: string };
