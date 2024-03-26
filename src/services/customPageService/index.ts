@@ -8,6 +8,7 @@ import { formatWidgetsData } from "./util/getWidgetsFromPageData";
 import {
   type TPageResponse,
   type TWidget,
+  type Widget,
 } from "../../routes/customPagesController/customePageCreate/types";
 import { getPageById } from "../../model/page/getPageById";
 import { getPagesByUserId } from "../../model/page/getPagesByUserId";
@@ -17,6 +18,9 @@ import {
 } from "../../model/page/removePage";
 import { removeWidget } from "../../model/widget/removeWidget";
 import { formattedPagesResponse } from "./util/formatgetPagesResponse";
+import { type TRequestUpdatePage } from "../../routes/customPagesController/customePageUpdate/types";
+import { updatePage } from "../../model/page/updatePage";
+import { type TRequestCreatePage } from "../../routes/customPagesController/types";
 
 class CustomPageService {
   /**
@@ -85,16 +89,11 @@ class CustomPageService {
       throw new Error("Page not created");
     }
 
-    const formattedWidgets = formatWidgetsData(data, createdPage.pageId);
-
-    for (let i = 0; i < formattedWidgets.length; i++) {
-      const widgetType = formattedWidgets[0].widgets;
-      await Promise.allSettled(
-        widgetType.map(
-          async (w: TWidget) => await this.widgetService.createWidget(w),
-        ),
-      );
-    }
+    await this.actionsWithWidgets(
+      data,
+      createdPage.pageId,
+      this.widgetService.createWidget.bind(this.widgetService),
+    );
 
     return createdPage;
   }
@@ -139,6 +138,48 @@ class CustomPageService {
     if (!removedWidgets) return null;
 
     return await removePage(id);
+  }
+
+  /**
+   * Update custom page
+   * @param data
+   */
+  public async updateCustomPage(
+    data: TRequestUpdatePage["Body"],
+  ): Promise<{ id: number } | null> {
+    const { id } = data;
+
+    if (!id) return null;
+
+    const { widgets } = data;
+    if (widgets.length) {
+      await this.actionsWithWidgets(
+        data,
+        id,
+        this.widgetService.updateWidget.bind(this.widgetService),
+      );
+    }
+    return await updatePage(data);
+  }
+
+  /**
+   * Actions with widgets -> format -> create/update
+   * @param data
+   * @param pageId
+   * @param cb callback
+   * @private
+   */
+  private async actionsWithWidgets(
+    data: TRequestUpdatePage["Body"] | TRequestCreatePage["Body"],
+    pageId: number,
+    cb: (w: TWidget) => Promise<Widget | null | { id: number }>,
+  ) {
+    const formattedWidgets = formatWidgetsData(data, pageId);
+
+    for (let i = 0; i < formattedWidgets.length; i++) {
+      const widgetType = formattedWidgets[0].widgets;
+      await Promise.allSettled(widgetType.map(cb));
+    }
   }
 }
 

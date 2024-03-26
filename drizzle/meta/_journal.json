@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1710964285913,
-      "tag": "0000_strong_proudstar",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1711366160184,
-      "tag": "0001_noisy_argent",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1711367240448,
-      "tag": "0002_classy_toad",
+      "when": 1711486561762,
+      "tag": "0000_shallow_quasar",
       "breakpoints": true
     }
   ]
