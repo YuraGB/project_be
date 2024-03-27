@@ -6,7 +6,7 @@ import {
 import { createYoutubeWidget } from "../../model/widget/createYoutubeWidget";
 import { getWidgetById } from "../../model/widget/getWidgetById";
 import { type IWidgetService } from "./types";
-import { type TYoutubeWidgetSchema } from "../../db/schemas/widget";
+import { type TYoutubeWidgetSchema } from "../../db/schemas/youtubeWidget";
 import { youtubeWidgetUpdate } from "../../model/widget/youtubeWidgetUpdate";
 import { removeYoutubeWidgetById } from "../../model/widget/removeYoutubeWidgetById";
 
