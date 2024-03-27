@@ -1,7 +1,9 @@
 import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { UsersTable } from "./user";
 import { type InferSelectModel, relations } from "drizzle-orm";
-import { YoutubeWidget } from "./widget";
+import { YoutubeWidget } from "./youtubeWidget";
+import { LinkWidget } from "./linkWidget";
+import { ImageWidget } from "./imageWidget";
 
 export const PagesTable = pgTable("page", {
   id: serial("id").primaryKey().unique(),
@@ -16,6 +18,8 @@ export const pageRelations = relations(PagesTable, ({ one, many }) => ({
     references: [UsersTable.id],
   }),
   youtubeWidgets: many(YoutubeWidget),
+  linkWidgets: many(LinkWidget),
+  imageWidgets: many(ImageWidget),
 }));
 
 export type TPageSchema = InferSelectModel<typeof PagesTable>;

@@ -1,5 +1,5 @@
 import { db } from "../../db/db";
-import { YoutubeWidget } from "../../db/schemas/widget";
+import { YoutubeWidget } from "../../db/schemas/youtubeWidget";
 import { eq } from "drizzle-orm";
 
 interface TRemoveWidgetResponse {

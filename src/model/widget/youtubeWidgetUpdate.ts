@@ -1,4 +1,4 @@
-import { YoutubeWidget } from "../../db/schemas/widget";
+import { YoutubeWidget } from "../../db/schemas/youtubeWidget";
 import { db } from "../../db/db";
 import { type TYoutubeWidget } from "../../routes/customPagesController/customePageCreate/types";
 

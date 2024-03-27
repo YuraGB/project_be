@@ -2,7 +2,7 @@ import * as PagesSchema from "../../db/schemas/page";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import * as userSchema from "../../db/schemas/user";
-import * as YoutubeSchema from "../../db/schemas/widget";
+import * as YoutubeSchema from "../../db/schemas/youtubeWidget";
 import postgres from "postgres";
 import { type TPageSchema } from "../../db/schemas/page";
 
@@ -31,6 +31,6 @@ export const getPagesByUserId = async (
   }
 };
 
-export type TPageDataResponse =
-  | Array<TPageSchema & { youtubeWidgets: YoutubeSchema.TYoutubeWidgetSchema[] }>
-  | null;
+export type TPageDataResponse = Array<
+  TPageSchema & { youtubeWidgets: YoutubeSchema.TYoutubeWidgetSchema[] }
+> | null;
