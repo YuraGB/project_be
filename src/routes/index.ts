@@ -3,6 +3,7 @@ import userRoutes from "./userController";
 import authRoutes from "./authController";
 import tokens from "./tokenController";
 import customPageRoute from "./customPagesController";
+import widgetRoute from "./widgetController";
 
 export default function (
   fastify: FastifyInstance,
@@ -10,7 +11,7 @@ export default function (
   done: () => void,
 ) {
   fastify.register(userRoutes, {
-    prefix: "/user",
+    prefix: "/api/v1/user",
   });
 
   fastify.register(authRoutes, {
@@ -18,6 +19,10 @@ export default function (
   });
 
   fastify.register(customPageRoute, {
+    prefix: "/api/v1/",
+  });
+
+  fastify.register(widgetRoute, {
     prefix: "/api/v1/",
   });
 
