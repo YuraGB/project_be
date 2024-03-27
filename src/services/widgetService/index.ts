@@ -8,6 +8,7 @@ import { getWidgetById } from "../../model/widget/getWidgetById";
 import { type IWidgetService } from "./types";
 import { type TYoutubeWidgetSchema } from "../../db/schemas/widget";
 import { youtubeWidgetUpdate } from "../../model/widget/youtubeWidgetUpdate";
+import { removeYoutubeWidgetById } from "../../model/widget/removeYoutubeWidgetById";
 
 class WidgetService implements IWidgetService {
   /**
@@ -69,9 +70,12 @@ class WidgetService implements IWidgetService {
 
   /**
    * Delete widget
-   * @param _id
+   * @param id
    */
-  public async deleteWidget(_id: number): Promise<undefined> {}
+  public async deleteWidget(id: number): Promise<{ id: number } | null> {
+    // todo: add functionality to delete other types of widgets
+    return await removeYoutubeWidgetById(id);
+  }
 }
 
 export const widgetService = new WidgetService();

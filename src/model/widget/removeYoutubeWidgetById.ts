@@ -5,13 +5,13 @@ import { eq } from "drizzle-orm";
 interface TRemoveWidgetResponse {
   id: number;
 }
-export const removeWidget = async (
+export const removeYoutubeWidgetById = async (
   id: number,
 ): Promise<TRemoveWidgetResponse | null> => {
   try {
     const [removedWidgetId] = await db
       .delete(YoutubeWidget)
-      .where(eq(YoutubeWidget.pageId, id))
+      .where(eq(YoutubeWidget.id, id))
       .returning({
         id: YoutubeWidget.id,
       });

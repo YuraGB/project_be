@@ -5,13 +5,18 @@ import { type TYoutubeWidget } from "../../routes/customPagesController/customeP
 export const youtubeWidgetUpdate = async (
   widget: TYoutubeWidget,
 ): Promise<{ id: number } | null> => {
+  const widgetToSave = {
+    ...widget,
+    title: widget.title ?? widget.youtube_title,
+  };
+
   try {
     const [youtubeWidget] = await db
       .insert(YoutubeWidget)
-      .values(widget)
+      .values(widgetToSave)
       .onConflictDoUpdate({
         target: YoutubeWidget.id,
-        set: widget,
+        set: widgetToSave,
       })
       .returning({ id: YoutubeWidget.id });
     return youtubeWidget;
