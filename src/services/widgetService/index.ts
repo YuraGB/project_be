@@ -1,15 +1,26 @@
 import {
+  type TImageWidget,
+  type TLinkWidget,
   type TWidget,
   type TYoutubeWidget,
   type Widget,
 } from "../../routes/customPagesController/customePageCreate/types";
-import { createYoutubeWidget } from "../../model/widget/createYoutubeWidget";
+import { createYoutubeWidget } from "../../model/widget/youtubeWidget/createYoutubeWidget";
 import { getWidgetById } from "../../model/widget/getWidgetById";
 import { type IWidgetService } from "./types";
 import { type TYoutubeWidgetSchema } from "../../db/schemas/youtubeWidget";
-import { youtubeWidgetUpdate } from "../../model/widget/youtubeWidgetUpdate";
-import { removeYoutubeWidgetById } from "../../model/widget/removeYoutubeWidgetById";
+import { youtubeWidgetUpdate } from "../../model/widget/youtubeWidget/youtubeWidgetUpdate";
+import { removeYoutubeWidgetById } from "../../model/widget/youtubeWidget/removeYoutubeWidgetById";
+import { linkWidgetUpdate } from "../../model/widget/linkWidget/LinkWidgetUpdate";
+import { imageWidgetUpdate } from "../../model/widget/ImageWidget/ImageWidgetUpdate";
+import { createLinkWidget } from "../../model/widget/linkWidget/createLinkWidget";
+import { createImageWidget } from "../../model/widget/ImageWidget/createImageWidget";
+import { removeLinkWidgetById } from "../../model/widget/linkWidget/removeLinkWidgetById";
+import { removeImageWidgetById } from "../../model/widget/ImageWidget/removeImageWidgetById";
 
+/**
+ * Widget service
+ */
 class WidgetService implements IWidgetService {
   /**
    * Get widget by id
@@ -29,7 +40,35 @@ class WidgetService implements IWidgetService {
     if (type === "youtube")
       return await this.createYoutubeWidget(widget as TYoutubeWidget);
 
+    if (type === "link")
+      return await this.createLinkWidget(widget as TLinkWidget);
+
+    if (type === "image")
+      return await this.createImageWidget(widget as TImageWidget);
+
     throw new Error("Invalid widget type");
+  }
+
+  /**
+   * Create image widget
+   * @param widget
+   * @private
+   */
+  private async createImageWidget(
+    widget: TImageWidget,
+  ): Promise<TImageWidget | null> {
+    return await createImageWidget([widget]);
+  }
+
+  /**
+   * Create link widget
+   * @param widget
+   * @private
+   */
+  private async createLinkWidget(
+    widget: TLinkWidget,
+  ): Promise<TLinkWidget | null> {
+    return await createLinkWidget([widget]);
   }
 
   /**
@@ -52,6 +91,10 @@ class WidgetService implements IWidgetService {
     return await createYoutubeWidget(youtubeWidgets);
   }
 
+  /**
+   * Update widget
+   * @param widget
+   */
   public async updateWidget(widget: TWidget): Promise<{ id: number } | null> {
     const { type } = widget;
 
@@ -59,10 +102,45 @@ class WidgetService implements IWidgetService {
       return await this.updateYoutubeWidget(widget as TYoutubeWidget);
     }
 
+    if (type === "link") {
+      return await this.updateLinkWidget(widget as TLinkWidget);
+    }
+
+    if (type === "image") {
+      return await this.updateImageWidget(widget as TImageWidget);
+    }
+
     throw new Error("Invalid widget type");
   }
 
-  public async updateYoutubeWidget(
+  /**
+   * Update link widget
+   * @param widget
+   * @private
+   */
+  private async updateLinkWidget(
+    widget: TLinkWidget,
+  ): Promise<{ id: number } | null> {
+    return await linkWidgetUpdate(widget);
+  }
+
+  /**
+   * Update image widget
+   * @param widget
+   * @private
+   */
+  private async updateImageWidget(
+    widget: TImageWidget,
+  ): Promise<{ id: number } | null> {
+    return await imageWidgetUpdate(widget);
+  }
+
+  /**
+   * Update youtube widget
+   * @param widget
+   * @private
+   */
+  private async updateYoutubeWidget(
     widget: TYoutubeWidget,
   ): Promise<{ id: number } | null> {
     return await youtubeWidgetUpdate(widget);
@@ -71,10 +149,23 @@ class WidgetService implements IWidgetService {
   /**
    * Delete widget
    * @param id
+   * @param type
    */
-  public async deleteWidget(id: number): Promise<{ id: number } | null> {
-    // todo: add functionality to delete other types of widgets
-    return await removeYoutubeWidgetById(id);
+  public async deleteWidget(
+    id: number,
+    type: string,
+  ): Promise<{ id: number } | null> {
+    switch (type) {
+      case "youtube":
+        return await removeYoutubeWidgetById(id);
+      case "link":
+        return await removeLinkWidgetById(id);
+      case "image":
+        return await removeImageWidgetById(id);
+
+      default:
+        throw new Error("Invalid widget type");
+    }
   }
 }
 

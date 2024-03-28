@@ -8,6 +8,7 @@ export const LinkWidget = pgTable("link_widget", {
   type: text("link_widget").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   link_url: text("link_url").notNull(),
+  group: text("group").notNull().default(""),
   link_title: text("link_title").notNull(),
   pageId: integer("page_id").references(() => PagesTable.id),
 });

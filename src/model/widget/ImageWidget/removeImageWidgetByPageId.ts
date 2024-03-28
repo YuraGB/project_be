@@ -1,19 +1,19 @@
-import { db } from "../../db/db";
-import { YoutubeWidget } from "../../db/schemas/youtubeWidget";
+import { db } from "../../../db/db";
 import { eq } from "drizzle-orm";
+import { ImageWidget } from "../../../db/schemas/imageWidget";
 
 interface TRemoveWidgetResponse {
   id: number;
 }
-export const removeWidget = async (
+export const removeImageWidgetByPageId = async (
   id: number,
 ): Promise<TRemoveWidgetResponse | null> => {
   try {
     const [removedWidgetId] = await db
-      .delete(YoutubeWidget)
-      .where(eq(YoutubeWidget.pageId, id))
+      .delete(ImageWidget)
+      .where(eq(ImageWidget.pageId, id))
       .returning({
-        id: YoutubeWidget.id,
+        id: ImageWidget.id,
       });
     return removedWidgetId;
   } catch (e) {
