@@ -1,4 +1,4 @@
-import { type TPage, type TPageData } from "./types";
+import { type TPageData, type TWidgetData } from "./types";
 import { type IUserService } from "../userService/types";
 import { pageCreate } from "../../model/page/pageCreate";
 import userService from "../userService";
@@ -16,7 +16,7 @@ import {
   removePage,
   type TRemovePageResponse,
 } from "../../model/page/removePage";
-import { removeWidget } from "../../model/widget/removeWidget";
+import { removeWidgetsFromPage } from "../../model/widget/removeWidgetsFromPage";
 import { formattedPagesResponse } from "./util/formatgetPagesResponse";
 import { type TRequestUpdatePage } from "../../routes/customPagesController/customePageUpdate/types";
 import { updatePage } from "../../model/page/updatePage";
@@ -102,7 +102,11 @@ class CustomPageService {
    * Get custom pages data by user id
    * @param id
    */
-  public async getCustomPagesDataByUserId(id: number): Promise<TPage[] | null> {
+  public async getCustomPagesDataByUserId(id: number): Promise<Array<{
+    id: number;
+    title: string;
+    widgets: TWidgetData;
+  }> | null> {
     const user = await this.userService.getUserById(id);
 
     if (user === null) {
@@ -110,7 +114,6 @@ class CustomPageService {
     }
 
     const pageData = await getPagesByUserId(id);
-
     if (pageData === null) {
       return null;
     }
@@ -133,7 +136,7 @@ class CustomPageService {
      * Remove all widgets from page
      * @param {number} id Page id
      */
-    const removedWidgets = await removeWidget(id);
+    const removedWidgets = await removeWidgetsFromPage(id);
 
     if (!removedWidgets) return null;
 
@@ -153,9 +156,6 @@ class CustomPageService {
 
     const { widgets } = data;
     if (widgets.length) {
-      // remove widgets
-      await removeWidget(id);
-
       await this.actionsWithWidgets(
         data,
         id,

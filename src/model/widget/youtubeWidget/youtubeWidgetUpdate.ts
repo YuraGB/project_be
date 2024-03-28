@@ -1,6 +1,6 @@
-import { YoutubeWidget } from "../../db/schemas/youtubeWidget";
-import { db } from "../../db/db";
-import { type TYoutubeWidget } from "../../routes/customPagesController/customePageCreate/types";
+import { YoutubeWidget } from "../../../db/schemas/youtubeWidget";
+import { db } from "../../../db/db";
+import { type TYoutubeWidget } from "../../../routes/customPagesController/customePageCreate/types";
 
 export const youtubeWidgetUpdate = async (
   widget: TYoutubeWidget,

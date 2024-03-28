@@ -1,22 +1,15 @@
 import {
   type TPageResponse,
-  type TYoutubeType,
   type Widget,
 } from "../../../routes/customPagesController/customePageCreate/types";
+import { type TWidgetData } from "../types";
 
 export const formattedPagesResponse = (
   pagesData: TPageResponse[] | null,
 ): Array<{
   id: number;
   title: string;
-  widgets: Array<{
-    widgetData: Omit<
-      { id: number; type: string } & TYoutubeType,
-      "type" | "id"
-    >;
-    id: number;
-    type: string;
-  }>;
+  widgets: TWidgetData;
 }> => {
   if (!Array.isArray(pagesData)) {
     return [];
@@ -25,14 +18,25 @@ export const formattedPagesResponse = (
   if (pagesData.length === 0) {
     return [];
   }
-
-  return pagesData.map(({ id, title, youtubeWidgets }) => {
-    return {
+  return pagesData.map(
+    ({
       id,
       title,
-      widgets: formattedWidgetsData(youtubeWidgets ?? []),
-    };
-  });
+      youtubeWidgets = [],
+      linkWidgets = [],
+      imageWidgets = [],
+    }) => {
+      return {
+        id,
+        title,
+        widgets: formattedWidgetsData([
+          ...youtubeWidgets,
+          ...linkWidgets,
+          ...imageWidgets,
+        ]),
+      };
+    },
+  );
 };
 
 const formattedWidgetsData = (widgets: Widget[] | []) => {
@@ -43,7 +47,7 @@ const formattedWidgetsData = (widgets: Widget[] | []) => {
   if (widgets.length === 0) {
     return [];
   }
-
+  console.log(widgets, "widgets234");
   return widgets.map(({ id, type, ...rest }) => {
     return {
       id,

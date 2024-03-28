@@ -8,5 +8,5 @@ export const removeWidgetHandler = async (
 ) => {
   const { body } = request;
 
-  return await widgetService.deleteWidget(body);
+  return await widgetService.deleteWidget(body.id, body.type);
 };

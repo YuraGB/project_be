@@ -6,10 +6,13 @@ export interface TRequestCreatePage {
   };
 }
 
+// Page data from database
 export interface TPageResponse {
   id: number;
   title: string;
   youtubeWidgets?: TYoutubeWidget[];
+  linkWidgets?: TLinkWidget[];
+  imageWidgets?: TImageWidget[];
 }
 
 export interface TSaveWidgets {
@@ -18,9 +21,9 @@ export interface TSaveWidgets {
 }
 
 export type Widget = {
-  id: number;
+  id?: number;
   type: string;
-} & TYoutubeType;
+} & (TYoutubeType | TLinkType | TImageType);
 
 export type TWidget<T = object> = {
   id: number;
@@ -32,6 +35,22 @@ export interface TYoutubeType {
   youtube_title: string;
   youtube_id: string;
   title?: string;
+  group?: string;
+}
+
+export interface TLinkType {
+  link_title: string;
+  link_url: string;
+  title?: string;
+  group?: string;
+}
+
+export interface TImageType {
+  image_title: string;
+  image_link: string;
+  image_src: string;
+  title?: string;
+  group?: string;
 }
 
 export interface TPageId {
@@ -40,3 +59,7 @@ export interface TPageId {
 
 export type TYoutubeWidget = TYoutubeType &
   TPageId & { id?: number; type: string };
+
+export type TLinkWidget = TLinkType & TPageId & { id?: number; type: string };
+
+export type TImageWidget = TImageType & TPageId & { id?: number; type: string };
