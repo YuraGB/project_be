@@ -156,6 +156,12 @@ class CustomPageService {
 
     const { widgets } = data;
     if (widgets.length) {
+      try {
+        await removeWidgetsFromPage(id);
+      } catch (error) {
+        console.log("removedWidgets error", error);
+      }
+
       await this.actionsWithWidgets(
         data,
         id,
