@@ -9,7 +9,7 @@ export const youtubeWidgetUpdate = async (
     ...widget,
     title: widget.title ?? widget.youtube_title,
   };
-
+  console.log(widgetToSave);
   try {
     const [youtubeWidget] = await db
       .insert(YoutubeWidget)
