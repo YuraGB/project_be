@@ -33,7 +33,7 @@
     "fastify": "^4.26.1",
     "fastify-plugin": "^4.5.1",
     "he": "^1.2.0",
-    "postgres": "^3.4.3"
+    "postgres": "^3.4.4"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^19.0.0",
